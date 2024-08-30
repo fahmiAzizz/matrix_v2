@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "build": "tsc",
+        "start": "node dist/app.js"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "dist/app.js"
+      }
+    ]
+  }
+  

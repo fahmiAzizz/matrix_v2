@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const employeeController_1 = require("../controllers/employeeController");
+const userEmployee_1 = require("../controllers/userEmployee");
+const authMiddleware_1 = require("../middleware/authMiddleware");
+const router = (0, express_1.Router)();
+router.post('/', employeeController_1.createEmployee);
+router.post('/userEmployee', authMiddleware_1.verifyToken, userEmployee_1.createUserAndEmployee);
+router.patch('/userEmployee', authMiddleware_1.verifyToken, userEmployee_1.updateUserAndEmployee);
+router.get('/', employeeController_1.getAllEmployees);
+router.get('/:id', employeeController_1.getEmployeeById);
+router.put('/:id', employeeController_1.updateEmployee);
+router.delete('/:id', employeeController_1.deleteEmployee);
+exports.default = router;
