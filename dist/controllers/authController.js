@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.login = void 0;
-const db_1 = __importDefault(require("../config/db")); // Pastikan db telah diatur dengan benar
+const db_1 = __importDefault(require("../config/db"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -42,7 +42,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000
         });
-        return res.status(200).json({ message: "Login Successfully" });
+        return res.status(200).json({ user, token });
     }
     catch (error) {
         const err = error;

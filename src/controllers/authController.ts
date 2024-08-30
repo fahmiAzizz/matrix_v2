@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import db from '../config/db'; // Pastikan db telah diatur dengan benar
+import db from '../config/db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -42,7 +42,7 @@ export const login = async (req: Request, res: Response) => {
             maxAge: 24 * 60 * 60 * 1000
         });
 
-        return res.status(200).json({ message: "Login Successfully" });
+        return res.status(200).json({ user, message: 'Login Successfully' });
     } catch (error) {
         const err = error as Error;
         return res.status(500).json({ message: 'An error occurred during login', error: err.message });
