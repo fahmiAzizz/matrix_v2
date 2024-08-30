@@ -5,7 +5,6 @@ import roleRoute from './routes/roleRoute'
 import authRoute from './routes/authRoute'
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
-import db from './config/db';
 import cors from 'cors'
 import dotenv from 'dotenv';
 
