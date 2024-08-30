@@ -3,6 +3,7 @@ import UserModel from '../models/user';
 import RoleModel from '../models/role';
 import EmployeeModel from '../models/employee';
 import ActivityModel from '../models/activity';
+import mysql2 from 'mysql2'; // Needed to fix sequelize issues with WebPack
 
 
 
@@ -15,7 +16,8 @@ const sequelize = new Sequelize({
     username: process.env.DBUSER || 'root',
     password: process.env.PASSWORD || '',
     host: process.env.HOST || 'localhost',
-    dialect: 'mysql'
+    dialect: 'mysql',
+    dialectModule: mysql2
 });
 
 const db: any = {};

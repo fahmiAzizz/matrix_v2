@@ -8,6 +8,7 @@ const user_1 = __importDefault(require("../models/user"));
 const role_1 = __importDefault(require("../models/role"));
 const employee_1 = __importDefault(require("../models/employee"));
 const activity_1 = __importDefault(require("../models/activity"));
+const mysql2_1 = __importDefault(require("mysql2")); // Needed to fix sequelize issues with WebPack
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const sequelize = new sequelize_1.Sequelize({
@@ -15,7 +16,8 @@ const sequelize = new sequelize_1.Sequelize({
     username: process.env.DBUSER || 'root',
     password: process.env.PASSWORD || '',
     host: process.env.HOST || 'localhost',
-    dialect: 'mysql'
+    dialect: 'mysql',
+    dialectModule: mysql2_1.default
 });
 const db = {};
 db.Sequelize = sequelize_1.Sequelize;
