@@ -36,13 +36,13 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!isPasswordValid) {
             return res.status(401).json({ message: 'Invalid Password!' });
         }
-        const token = jsonwebtoken_1.default.sign({ userId: user.id, role: user.employee.role }, process.env.JWT_SECRET || '403836y48354348f', { expiresIn: '1h' });
+        const token = jsonwebtoken_1.default.sign({ userId: user.id, role: user.employee.role }, process.env.JWT_KEY || '403836y48354348f', { expiresIn: '1h' });
         yield user.update({ token });
         res.cookie('token', token, {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000
         });
-        return res.status(200).json({ user, token });
+        return res.status(200).json({ user, message: 'Login Successfully' });
     }
     catch (error) {
         const err = error;

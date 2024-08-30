@@ -17,19 +17,15 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const db_1 = __importDefault(require("../config/db"));
 const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // Ambil token dari cookies
         const token = req.cookies.token;
-        // Jika tidak ada token, kirim status 401 Unauthorized
         if (!token) {
             return res.status(401).json({ message: 'Access denied. No token provided.' });
         }
-        // Verifikasi token
-        jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET || '403836y48354348f', (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
+        jsonwebtoken_1.default.verify(token, process.env.JWT_KEY || '403836y48354348f', (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
             if (err) {
                 return res.status(403).json({ message: 'Invalid or expired token.' });
             }
             const payload = decoded;
-            // Cari user berdasarkan id yang ada dalam payload token
             const user = yield db_1.default.User.findOne({
                 where: { id: payload.userId, token },
                 include: [{
@@ -37,17 +33,14 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
                         as: 'employee'
                     }]
             });
-            // Jika user tidak ditemukan atau token tidak cocok, kirim status 401 Unauthorized
             if (!user) {
                 return res.status(401).json({ message: 'User not found or token does not match.' });
             }
-            // Simpan informasi user ke dalam request untuk digunakan di route berikutnya
             req.user = {
                 id: user.id,
                 username: user.username,
                 role: user.employee.role,
             };
-            // Lanjutkan ke middleware atau route handler berikutnya
             next();
         }));
     }
