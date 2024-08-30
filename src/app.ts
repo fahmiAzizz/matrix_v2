@@ -31,7 +31,7 @@ db.sequelize.authenticate()
 
 
 app.use(express.json());
-app.use(cors({ credentials: true }));
+app.use(cors({ credentials: true, origin: '*' }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
