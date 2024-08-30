@@ -18,6 +18,7 @@ const sequelize = new Sequelize({
     host: process.env.HOST || 'localhost',
     dialect: 'mysql',
     dialectModule: mysql2
+
 });
 
 const db: any = {};
