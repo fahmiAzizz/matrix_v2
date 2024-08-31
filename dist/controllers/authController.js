@@ -40,7 +40,8 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield user.update({ token });
         res.cookie('token', token, {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000
+            maxAge: 24 * 60 * 60 * 1000,
+            secure: false
         });
         return res.status(200).json({ user, message: 'Login Successfully' });
     }
