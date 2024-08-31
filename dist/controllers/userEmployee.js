@@ -21,6 +21,13 @@ const createUserAndEmployee = (req, res) => __awaiter(void 0, void 0, void 0, fu
     const username = nik;
     const password = first_name + nik.substring(0, 6);
     try {
+        const existingEmployee = yield db_1.default.Employee.findOne({ where: { nik }, transaction });
+        if (existingEmployee) {
+            yield transaction.rollback();
+            return res.status(400).json({
+                message: 'nik sudah terdaftar, tolong gunakan nik yang lain.',
+            });
+        }
         const hashedPassword = yield bcrypt_1.default.hash(password, 10);
         const newUser = yield db_1.default.User.create({
             username,

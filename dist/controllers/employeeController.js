@@ -77,7 +77,7 @@ const deleteEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
         yield employee.destroy({ transaction }); // Menghapus Employee dengan transaksi
         yield transaction.commit(); // Commit transaksi jika semuanya berhasil
-        res.status(204).json();
+        res.status(200).json({ message: "Data Berhasil Dihapus" });
     }
     catch (error) {
         yield transaction.rollback(); // Membatalkan transaksi jika terjadi kesalahan

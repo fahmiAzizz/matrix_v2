@@ -11,6 +11,14 @@ export const createUserAndEmployee = async (req: Request, res: Response) => {
     const password = first_name + nik.substring(0, 6);
 
     try {
+        const existingEmployee = await db.Employee.findOne({ where: { nik }, transaction });
+        if (existingEmployee) {
+            await transaction.rollback();
+            return res.status(400).json({
+                message: 'nik sudah terdaftar, tolong gunakan nik yang lain.',
+            });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await db.User.create({
