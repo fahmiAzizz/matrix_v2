@@ -64,14 +64,23 @@ const updateEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function*
 });
 exports.updateEmployee = updateEmployee;
 const deleteEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const transaction = yield db_1.default.sequelize.transaction(); // Memulai transaksi
     try {
-        const employee = yield db_1.default.Employee.findByPk(req.params.id);
-        if (!employee)
+        const employee = yield db_1.default.Employee.findByPk(req.params.id, { transaction });
+        if (!employee) {
+            yield transaction.rollback(); // Membatalkan transaksi jika Employee tidak ditemukan
             return res.status(404).json({ error: 'Employee not found' });
-        yield employee.destroy();
+        }
+        const user = yield db_1.default.User.findByPk(employee.user_id, { transaction });
+        if (user) {
+            yield user.destroy({ transaction }); // Menghapus User terkait dengan transaksi
+        }
+        yield employee.destroy({ transaction }); // Menghapus Employee dengan transaksi
+        yield transaction.commit(); // Commit transaksi jika semuanya berhasil
         res.status(204).json();
     }
     catch (error) {
+        yield transaction.rollback(); // Membatalkan transaksi jika terjadi kesalahan
         const err = error;
         res.status(500).json({ error: err.message });
     }

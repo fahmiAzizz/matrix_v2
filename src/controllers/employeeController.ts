@@ -46,14 +46,27 @@ export const updateEmployee = async (req: Request, res: Response) => {
 };
 
 export const deleteEmployee = async (req: Request, res: Response) => {
-    try {
-        const employee = await db.Employee.findByPk(req.params.id);
-        if (!employee) return res.status(404).json({ error: 'Employee not found' });
+    const transaction = await db.sequelize.transaction(); // Memulai transaksi
 
-        await employee.destroy();
+    try {
+        const employee = await db.Employee.findByPk(req.params.id, { transaction });
+        if (!employee) {
+            await transaction.rollback(); // Membatalkan transaksi jika Employee tidak ditemukan
+            return res.status(404).json({ error: 'Employee not found' });
+        }
+
+        const user = await db.User.findByPk(employee.user_id, { transaction });
+        if (user) {
+            await user.destroy({ transaction }); // Menghapus User terkait dengan transaksi
+        }
+
+        await employee.destroy({ transaction }); // Menghapus Employee dengan transaksi
+
+        await transaction.commit(); // Commit transaksi jika semuanya berhasil
         res.status(204).json();
     } catch (error) {
+        await transaction.rollback(); // Membatalkan transaksi jika terjadi kesalahan
         const err = error as Error;
         res.status(500).json({ error: err.message });
     }
-};
+}
