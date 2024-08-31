@@ -7,9 +7,9 @@ import { verifyToken } from '../middleware/authMiddleware';
 const router = Router();
 
 router.post('/', createEmployee);
-router.post('/userEmployee', verifyToken, createUserAndEmployee);
-router.patch('/userEmployee/:id', verifyToken, updateUserAndEmployee);
-router.delete('/userEmployee/:id', verifyToken, deleteUserAndEmployee);
+router.post('/userEmployee', createUserAndEmployee);
+router.patch('/userEmployee/:id', updateUserAndEmployee);
+router.delete('/userEmployee/:id', deleteUserAndEmployee);
 router.get('/', getAllEmployees);
 router.get('/:id', getEmployeeById);
 router.patch('/:id', updateEmployee);
