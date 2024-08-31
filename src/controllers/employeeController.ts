@@ -63,7 +63,7 @@ export const deleteEmployee = async (req: Request, res: Response) => {
         await employee.destroy({ transaction }); // Menghapus Employee dengan transaksi
 
         await transaction.commit(); // Commit transaksi jika semuanya berhasil
-        res.status(204).json();
+        res.status(200).json({ message: "Data Berhasil Dihapus" });
     } catch (error) {
         await transaction.rollback(); // Membatalkan transaksi jika terjadi kesalahan
         const err = error as Error;
