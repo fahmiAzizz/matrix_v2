@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import db from '../config/db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { log } from 'console';
 
 export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
@@ -31,7 +32,7 @@ export const login = async (req: Request, res: Response) => {
 
         const token = jwt.sign(
             { userId: user.id, role: user.employee.role },
-            process.env.JWT_KEY || '403836y48354348f',
+            process.env.JWT_KEY!,
             { expiresIn: '1h' }
         );
 
@@ -53,6 +54,8 @@ export const login = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
     try {
         const token = req.cookies.token;
+        if (!token)
+            return res.status(200).json({ cookies: req.cookies, message: 'Logout successful' });
         if (!token) return res.sendStatus(204);
         const user = await db.User.findOne({
             where: {
