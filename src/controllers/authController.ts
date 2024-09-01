@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import db from '../config/db';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { log } from 'console';
 
 export const login = async (req: Request, res: Response) => {
     const { username, password } = req.body;
@@ -54,7 +53,6 @@ export const login = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
     try {
         const token = req.cookies.token;
-        console.log('req', req)
         if (!token) return res.sendStatus(204);
         const user = await db.User.findOne({
             where: {
