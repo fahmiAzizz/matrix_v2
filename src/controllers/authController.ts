@@ -43,7 +43,7 @@ export const login = async (req: Request, res: Response) => {
             secure: false
         });
 
-        return res.status(200).json({ user, message: 'Login Successfully' });
+        return res.status(200).json({ token, user, message: 'Login Successfully' });
     } catch (error) {
         const err = error as Error;
         return res.status(500).json({ message: 'An error occurred during login', error: err.message });

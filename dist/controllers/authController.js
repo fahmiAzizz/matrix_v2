@@ -43,7 +43,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             maxAge: 24 * 60 * 60 * 1000,
             secure: false
         });
-        return res.status(200).json({ user, token, message: 'Login Successfully' });
+        return res.status(200).json({ user, message: 'Login Successfully' });
     }
     catch (error) {
         const err = error;
@@ -54,7 +54,6 @@ exports.login = login;
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const token = req.cookies.token;
-        console.log('req', req);
         if (!token)
             return res.sendStatus(204);
         const user = yield db_1.default.User.findOne({
