@@ -55,7 +55,7 @@ export const logout = async (req: Request, res: Response) => {
     try {
         const token = req.cookies.token;
         if (!token)
-            return res.status(200).json({ cookies: req.cookies, message: 'Logout successful' });
+            return res.status(200).json({ cookies: req, message: 'Logout successful' });
         if (!token) return res.sendStatus(204);
         const user = await db.User.findOne({
             where: {
