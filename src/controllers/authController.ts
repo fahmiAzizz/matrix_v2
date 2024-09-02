@@ -66,6 +66,7 @@ export const logout = async (req: Request, res: Response) => {
                 id: UserId
             }
         })
+        res.clearCookie('token');
         return res.status(200).json({ message: 'Logout successful' });
     } catch (error) {
         const err = error as Error;

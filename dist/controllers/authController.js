@@ -43,7 +43,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             maxAge: 24 * 60 * 60 * 1000,
             secure: false
         });
-        return res.status(200).json({ user, message: 'Login Successfully' });
+        return res.status(200).json({ token, user, message: 'Login Successfully' });
     }
     catch (error) {
         const err = error;
@@ -69,6 +69,7 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 id: UserId
             }
         });
+        res.clearCookie('token');
         return res.status(200).json({ message: 'Logout successful' });
     }
     catch (error) {
