@@ -31,9 +31,10 @@ db.sequelize.authenticate()
 
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(cors({ credentials: true, origin: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
+
 
 app.use('/', authRoute)
 app.use('/user', userRoute)
